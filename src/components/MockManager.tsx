@@ -13,7 +13,7 @@ function MockRow({ entry }: { entry: MockEntry }) {
   const { toggleMock, deleteMock, updateMockResponse } = useMockStore();
 
   const handleSaveEdit = () => {
-    try { updateMockResponse(entry.connectionId, entry.toolName, JSON.parse(editText)); setEditing(false); } catch {}
+    try { updateMockResponse(entry.connectionId, entry.toolName, JSON.parse(editText)); setEditing(false); } catch { return; }
   };
 
   return (

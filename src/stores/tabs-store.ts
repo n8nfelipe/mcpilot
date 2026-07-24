@@ -115,7 +115,7 @@ export const useTabsStore = create<TabsState>((set, get) => ({
     get().markDisconnected(id);
     try {
       await invoke("bridge_send", { cmdType: "disconnect", params: { connectionId: id } });
-    } catch {}
+    } catch { return; }
     set((s) => {
       const idx = s.tabs.findIndex((t) => t.id === id);
       if (idx === -1) return s;
@@ -202,7 +202,7 @@ export const useTabsStore = create<TabsState>((set, get) => ({
     get().markDisconnected(id);
     try {
       await invoke("bridge_send", { cmdType: "disconnect", params: { connectionId: id } });
-    } catch {}
+    } catch { return; }
   },
 
   markDisconnected: (id) =>

@@ -19,7 +19,7 @@ describe("parseStdioCommand", () => {
 describe("ConnectionPanel", () => {
   beforeEach(async () => {
     const { useTabsStore } = await import("@/stores/tabs-store");
-    useTabsStore.setState((s) => ({ tabs: [], activeTabId: "" }));
+    useTabsStore.setState(() => ({ tabs: [], activeTabId: "" }));
     useTabsStore.getState().addTab();
   });
 

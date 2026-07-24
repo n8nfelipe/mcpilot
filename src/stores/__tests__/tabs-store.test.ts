@@ -22,17 +22,12 @@ describe("Tabs Store", () => {
     vi.clearAllMocks();
     mockStoreState.getActiveMock = () => null;
     const { useTabsStore } = await import("../tabs-store");
-    useTabsStore.setState((s) => ({
+    useTabsStore.setState(() => ({
       tabs: [],
       activeTabId: "",
     }));
     useTabsStore.getState().addTab();
   });
-
-  function currentTab(store: typeof import("../tabs-store").useTabsStore) {
-    const state = store.getState();
-    return state.tabs.find((t: { id: string }) => t.id === state.activeTabId);
-  }
 
   it("starts with one tab after setup", async () => {
     const { useTabsStore } = await import("../tabs-store");
@@ -48,7 +43,7 @@ describe("Tabs Store", () => {
 
   it("sets active tab", async () => {
     const { useTabsStore } = await import("../tabs-store");
-    const id = useTabsStore.getState().addTab();
+    useTabsStore.getState().addTab();
     const firstId = useTabsStore.getState().tabs[0].id;
     useTabsStore.getState().setActiveTab(firstId);
     expect(useTabsStore.getState().activeTabId).toBe(firstId);

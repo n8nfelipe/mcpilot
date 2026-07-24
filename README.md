@@ -120,6 +120,15 @@ Os recursos previstos nos marcos M1 a M5 — do Tool Explorer ao licenciamento �
 
 Consulte o [PRD](./PRD.md) para o contexto do problema, personas, decisões técnicas, modelo de produto e roadmap detalhado.
 
+## Versionamento e releases
+
+Depois que as verificações da CI passam em um push para `main`, o release é calculado com [Conventional Commits](https://www.conventionalcommits.org/). As tags seguem o formato `vMAJOR.MINOR.PATCH`:
+
+- `feat: ...` gera uma versão minor.
+- `fix: ...` ou `perf: ...` gera uma versão patch.
+- `feat!: ...` ou um rodapé `BREAKING CHANGE:` gera uma versão major.
+- Outros tipos, como `docs:` e `chore:`, não geram release.
+
 ## Licença
 
 O produto foi planejado com núcleo MIT e recursos Pro licenciados. Antes de uma distribuição pública, a licença do repositório deve ser formalizada em um arquivo `LICENSE`.

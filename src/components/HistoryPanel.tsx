@@ -62,7 +62,7 @@ export function HistoryPanel() {
         <div className="space-y-1">
           {activeEntries.length === 0 && <p className="text-xs text-muted-foreground text-center py-6">No history yet</p>}
           {activeEntries.map((entry) => (
-            <HistoryRow key={entry.id} entry={entry} canReplay={activeTab?.connectionStatus === "connected" || Object.values(mocks).some((mock) => mock.connectionId === activeTabId && mock.toolName === entry.tool_name && mock.active)} onReplay={async (e) => { try { await callToolOnTab(activeTabId, e.tool_name, JSON.parse(e.arguments)); } catch {} }} />
+            <HistoryRow key={entry.id} entry={entry} canReplay={activeTab?.connectionStatus === "connected" || Object.values(mocks).some((mock) => mock.connectionId === activeTabId && mock.toolName === entry.tool_name && mock.active)} onReplay={async (e) => { try { await callToolOnTab(activeTabId, e.tool_name, JSON.parse(e.arguments)); } catch { return; } }} />
           ))}
         </div>
       </ScrollArea>
