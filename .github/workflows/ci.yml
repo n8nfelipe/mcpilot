@@ -52,6 +52,9 @@ jobs:
       - name: Build frontend
         run: pnpm build
 
+      - name: Build sidecar binary
+        run: pnpm build:sidecar
+
       - name: Check Rust
         run: cargo check
         working-directory: src-tauri

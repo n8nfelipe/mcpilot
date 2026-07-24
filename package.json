@@ -8,6 +8,7 @@
     "check": "tsc --noEmit",
     "lint": "eslint .",
     "build": "tsc && vite build",
+    "build:sidecar": "pnpm --dir src-tauri/mcp-bridge install --frozen-lockfile && pnpm --dir src-tauri/mcp-bridge build && pnpm --dir src-tauri/mcp-bridge package:sidecar",
     "preview": "vite preview",
     "tauri": "tauri",
     "test": "vitest run",

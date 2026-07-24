@@ -4,10 +4,9 @@
   "version": "0.1.0",
   "identifier": "com.felipe.mcpilot",
   "build": {
-    "beforeDevCommand": "pnpm dev",
+    "beforeDevCommand": "pnpm build:sidecar && pnpm dev",
     "devUrl": "http://localhost:1420",
-    "beforeBuildCommand": "pnpm build",
-    "beforeBundleCommand": "pnpm --dir src-tauri/mcp-bridge install --frozen-lockfile && pnpm --dir src-tauri/mcp-bridge build && pnpm --dir src-tauri/mcp-bridge package:sidecar",
+    "beforeBuildCommand": "pnpm build && pnpm build:sidecar",
     "frontendDist": "../dist"
   },
   "app": {
