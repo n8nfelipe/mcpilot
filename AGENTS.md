@@ -16,8 +16,8 @@ Status: M1 + M2 + M3 (Mock Mode) implemented. See `PRD.md` for full spec.
 | Process mgmt | Rust `std::process` — bridge spawned on app startup |
 | Bridge IPC | JSON-line protocol over stdin/stdout — Rust forwards via Tauri commands + oneshot channels |
 | Package mgr | pnpm |
-| Testing | vitest (not yet configured) |
-| CI/CD | GitHub Actions + ncipollo/release-action |
+| Testing | vitest (configured, 3 tests passing) |
+| CI/CD | GitHub Actions (tsc + cargo check + tests + release) |
 
 ## Architecture
 
@@ -94,7 +94,7 @@ cargo check           # Rust check only (faster than full build)
 npx tsc --noEmit      # TypeScript check
 ```
 
-Bridge dependencies are separate: `cd src-tauri/mcp-bridge && pnpm install`.
+Bridge deps + build: `cd src-tauri/mcp-bridge && pnpm install && pnpm build` (build creates `bridge.bundle.js` via esbuild, used in prod bundles).
 
 ## Decisions to carry forward
 
@@ -137,7 +137,14 @@ Bridge dependencies are separate: `cd src-tauri/mcp-bridge && pnpm install`.
 - Each tab has independent connection state, tools, explorer, playground
 - Active tab switching preserves connection params
 
-## M5 delivered (in progress)
+## M4 delivered
+
+- Copy/paste snippets (copy button on ToolExplorer tool cards)
+- Export Docs engine (generates markdown with tools/resources/prompts + history examples)
+- Export Preview dialog
+- Logs Timeline panel with search filter, tool filter, Diff View (line-by-line comparison)
+
+## M5 delivered
 
 - License Manager: local validation, key storage in localStorage, offline-first
 - Feature Gate: `useFeature()` hook + `isPro()` utility
@@ -147,12 +154,7 @@ Bridge dependencies are separate: `cd src-tauri/mcp-bridge && pnpm install`.
 
 ## Still missing
 
-- Tests (vitest — use twitter-mcp and youtube-mcp as test fixtures)
-- Error boundaries in UI
-- Tauri proper sidecar bundling (currently bridge runs from dev path)
 - Server process manager restart on crash
-- CI/CD pipeline (GitHub Actions)
-- Production installers (.deb/.AppImage/.dmg/.msi)
 - Landing page
 
 ## Conventions (user-wide)

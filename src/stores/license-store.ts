@@ -42,8 +42,10 @@ interface LicenseState {
   licenseKey: string;
   tier: LicenseTier;
   isValid: boolean;
+  lastValidatedAt: number | null;
   activate: (key: string) => boolean;
   deactivate: () => void;
+  revalidate: () => boolean;
 }
 
 export const useLicenseStore = create<LicenseState>((set) => {
@@ -53,17 +55,30 @@ export const useLicenseStore = create<LicenseState>((set) => {
     licenseKey: stored,
     tier: valid ? "pro" : "free",
     isValid: valid,
+    lastValidatedAt: stored ? Date.now() : null,
     activate: (key: string) => {
       const valid = validateKey(key);
       if (valid) {
         saveKey(key.trim());
-        set({ licenseKey: key.trim(), tier: "pro", isValid: true });
+        set({ licenseKey: key.trim(), tier: "pro", isValid: true, lastValidatedAt: Date.now() });
       }
       return valid;
     },
     deactivate: () => {
       saveKey("");
-      set({ licenseKey: "", tier: "free", isValid: false });
+      set({ licenseKey: "", tier: "free", isValid: false, lastValidatedAt: null });
+    },
+    revalidate: () => {
+      const key = loadKey();
+      const valid = key ? validateKey(key) : false;
+      if (!valid) saveKey("");
+      set({
+        licenseKey: valid ? key.trim() : "",
+        tier: valid ? "pro" : "free",
+        isValid: valid,
+        lastValidatedAt: Date.now(),
+      });
+      return valid;
     },
   };
 });

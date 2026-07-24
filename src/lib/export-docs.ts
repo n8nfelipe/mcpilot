@@ -20,6 +20,7 @@ function snippetBlock(lang: string, code: string): string {
 
 export function generateDocs(activeTab: Tab, history: HistoryEntry[]): string {
   const lines: string[] = [];
+  const activeHistory = history.filter((entry) => entry.connection_id === activeTab.id);
   const serverName = activeTab.serverInfo?.name || "MCP Server";
   const serverVer = activeTab.serverInfo?.version || "";
   const title = serverVer ? `${serverName} v${serverVer}` : serverName;
@@ -62,7 +63,7 @@ export function generateDocs(activeTab: Tab, history: HistoryEntry[]): string {
       );
       lines.push("");
 
-      const toolHistory = history.filter((h) => h.tool_name === tool.name).slice(0, 3);
+      const toolHistory = activeHistory.filter((h) => h.tool_name === tool.name).slice(0, 3);
       if (toolHistory.length > 0) {
         lines.push("**Example response:**");
         lines.push("");
@@ -127,6 +128,16 @@ export function generateDocs(activeTab: Tab, history: HistoryEntry[]): string {
 
 export function copyToClipboard(text: string): Promise<void> {
   return navigator.clipboard.writeText(text);
+}
+
+export function downloadMarkdown(markdown: string, serverName?: string): void {
+  const safeName = (serverName || "mcp-server").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "mcp-server";
+  const url = URL.createObjectURL(new Blob([markdown], { type: "text/markdown;charset=utf-8" }));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `${safeName}.md`;
+  link.click();
+  URL.revokeObjectURL(url);
 }
 
 export function makeSnippet(method: string, params: Record<string, unknown>): string {
