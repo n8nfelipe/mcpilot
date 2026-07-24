@@ -1,0 +1,8 @@
+packages:
+  - .
+
+allowBuilds:
+  esbuild: true
+
+overrides:
+  media-typer: 1.1.0
